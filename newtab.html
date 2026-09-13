@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Tab</title>
+  <link rel="stylesheet" href="newtab.css" />
+</head>
+<body>
+  <div class="toolbar">
+    <button id="notes-btn" class="tool-btn" type="button" title="Quick notes">📝</button>
+    <button id="settings-btn" class="tool-btn" type="button" title="Settings">⚙️</button>
+  </div>
+
+  <main class="page">
+    <section class="top">
+      <h1 id="greeting" class="greeting">Welcome</h1>
+      <div id="clock" class="clock">--:--</div>
+      <div id="ampm" class="ampm"></div>
+      <div id="date" class="date"></div>
+      <p id="quote" class="quote"></p>
+    </section>
+
+    <form id="search-form" class="search" role="search">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input
+        id="search-input"
+        class="search-input"
+        type="text"
+        placeholder="Search the web…"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </form>
+
+    <div id="engines" class="engines" role="group" aria-label="Search engine"></div>
+
+    <section class="weather-block">
+      <section class="weather" id="weather" title="Click for 5-day forecast">
+        <span id="weather-icon" class="weather-icon">—</span>
+        <span class="weather-text">
+          <span id="weather-temp" class="weather-temp">--°</span>
+          <span class="weather-meta">
+            <span id="weather-desc" class="weather-desc">Loading…</span>
+            <span id="weather-city" class="weather-city"></span>
+          </span>
+        </span>
+        <button id="unit-toggle" class="unit-toggle" type="button" title="Toggle °C / °F">°C / °F</button>
+        <button id="location-btn" class="icon-btn" type="button" title="Change location">✎</button>
+      </section>
+      <div id="forecast" class="forecast"></div>
+    </section>
+
+    <section class="shortcuts">
+      <div id="shortcut-grid" class="grid"></div>
+    </section>
+
+    <button id="add-tile" class="add-tile" type="button" title="Add shortcut">
+      <span class="plus">+</span>
+      <span>Add shortcut</span>
+    </button>
+  </main>
+
+  <aside id="notes-panel" class="notes-panel" aria-hidden="true">
+    <div class="notes-header">
+      <span class="notes-title">📝 Quick notes</span>
+      <button id="notes-close" class="icon-btn" type="button" title="Close">×</button>
+    </div>
+    <textarea
+      id="notes-textarea"
+      class="notes-textarea"
+      placeholder="Jot something down… (saved automatically)"
+      spellcheck="false"
+    ></textarea>
+  </aside>
+
+  <dialog id="edit-dialog" class="dialog">
+    <form method="dialog" id="edit-form">
+      <h2 id="edit-title">Add shortcut</h2>
+      <label>
+        Name
+        <input type="text" id="edit-name" placeholder="Netflix" required />
+      </label>
+      <label>
+        URL
+        <input type="url" id="edit-url" placeholder="https://netflix.com" required />
+      </label>
+      <input type="hidden" id="edit-index" value="-1" />
+      <div class="dialog-actions">
+        <button type="button" id="edit-cancel" class="ghost">Cancel</button>
+        <button type="submit" id="edit-save" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="location-dialog" class="dialog">
+    <form method="dialog" id="location-form">
+      <h2>Weather location</h2>
+      <label>
+        Search city
+        <input type="text" id="location-search" placeholder="Hobart" autocomplete="off" />
+      </label>
+      <ul id="location-results" class="results"></ul>
+      <div class="dialog-actions">
+        <button type="button" id="location-cancel" class="ghost">Cancel</button>
+        <button type="button" id="location-use-current" class="ghost">Use my location</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="forecast-dialog" class="dialog dialog-wide">
+    <h2 id="forecast-title">5-day forecast</h2>
+    <ul id="forecast-list" class="forecast-list"></ul>
+    <div class="dialog-actions">
+      <button type="button" id="forecast-close" class="ghost">Close</button>
+    </div>
+  </dialog>
+
+  <dialog id="settings-dialog" class="dialog">
+    <form method="dialog" id="settings-form">
+      <h2>Settings</h2>
+      <label>
+        Name
+        <input type="text" id="settings-name" placeholder="Brett" />
+      </label>
+      <label>
+        Emoji
+        <input type="text" id="settings-emoji" placeholder="👋" maxlength="4" />
+      </label>
+      <div class="dialog-actions">
+        <button type="button" id="settings-cancel" class="ghost">Cancel</button>
+        <button type="submit" id="settings-save" class="primary">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="newtab.js"></script>
+</body>
+</html>

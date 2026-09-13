@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Brett's New Tab",
+  "version": "1.0.0",
+  "description": "Personal new tab page with clock, weather, and shortcuts.",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*",
+    "https://www.google.com/*",
+    "https://*.googleusercontent.com/*"
+  ]
+}
