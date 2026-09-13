@@ -201,12 +201,15 @@ async function fetchWeather() {
   const loc = getLocation();
 
   try {
+    const now = new Date();
+    const daysSinceMonday = (now.getDay() + 6) % 7;
     const params = new URLSearchParams({
       latitude: String(loc.latitude),
       longitude: String(loc.longitude),
       current: "temperature_2m,apparent_temperature,weather_code",
       daily: "temperature_2m_max,temperature_2m_min,weather_code",
-      forecast_days: "7",
+      past_days: String(daysSinceMonday),
+      forecast_days: String(7 - daysSinceMonday),
       timezone: "auto",
     });
     const res = await fetch("https://api.open-meteo.com/v1/forecast?" + params.toString());
@@ -251,21 +254,27 @@ function weekdayLong(dateStr) {
   return new Date(dateStr + "T12:00:00").toLocaleDateString(undefined, { weekday: "long" });
 }
 
+function todayStr() {
+  const d = new Date();
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+
 function renderForecast() {
   const el = $("forecast");
   el.innerHTML = "";
   if (!weatherData || !weatherData.daily) return;
   const d = weatherData.daily;
   const days = d.time.length;
+  const today = todayStr();
 
-  for (let i = 1; i < Math.min(days, 5); i++) {
+  for (let i = 0; i < days; i++) {
     const info = weatherInfo(d.weather_code[i]);
     const div = document.createElement("div");
     div.className = "fday";
 
     const name = document.createElement("span");
     name.className = "fday-name";
-    name.textContent = weekdayShort(d.time[i]);
+    name.textContent = d.time[i] === today ? "Today" : weekdayShort(d.time[i]);
 
     const icon = document.createElement("span");
     icon.className = "fday-icon";
@@ -301,13 +310,14 @@ function updateUnitButton() {
 
 function openForecastDialog() {
   if (!weatherData || !weatherData.daily) return;
-  $("forecast-title").textContent = "5-day forecast · " + (weatherData.location.name || "");
+  $("forecast-title").textContent = "7-day forecast · " + (weatherData.location.name || "");
   const list = $("forecast-list");
   list.innerHTML = "";
   const d = weatherData.daily;
   const days = d.time.length;
+  const today = todayStr();
 
-  for (let i = 0; i < Math.min(days, 6); i++) {
+  for (let i = 0; i < days; i++) {
     const info = weatherInfo(d.weather_code[i]);
     const li = document.createElement("li");
 
@@ -319,7 +329,7 @@ function openForecastDialog() {
     body.className = "frow-body";
     const day = document.createElement("span");
     day.className = "frow-day";
-    day.textContent = i === 0 ? "Today" : weekdayLong(d.time[i]);
+    day.textContent = d.time[i] === today ? "Today" : weekdayLong(d.time[i]);
     const desc = document.createElement("span");
     desc.className = "frow-desc";
     desc.textContent = info.label;
